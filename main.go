@@ -46,7 +46,7 @@ func main() {
 		}
 
 		fmt.Println(&rows)
-		return c.JSON(http.StatusOK, books)
+		return c.JSON(http.StatusOK, books[0])
 	})
 
 	e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
