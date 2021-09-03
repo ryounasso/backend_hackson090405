@@ -8,7 +8,7 @@ import (
 
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo"
-	"github.com/lib/pq"
+	_ "github.com/lib/pq"
 )
 
 type Model struct {
@@ -44,13 +44,7 @@ func main() {
 }
 
 func GetDBConnection() *gorm.DB {
-	url := os.Getenv("DATABASE_URL")
-	connection, err := pq.ParseURL(url)
-	if err != nil {
-		log.Fatal(err)
-	}
-	connection += " sslmode=disable"
-	db, err := gorm.Open("postgres", connection)
+	db, err := gorm.Open("postgres", os.Getenv("DATABASE_URL"))
 	if err != nil {
 		log.Fatal(err)
 	}
