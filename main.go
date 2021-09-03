@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/joho/godotenv"
 	"github.com/labstack/echo"
 	_ "github.com/lib/pq"
 )
@@ -18,7 +17,6 @@ type Book struct {
 }
 
 func main() {
-	Env_load()
 	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
 	if err != nil {
 		log.Fatal(err)
@@ -56,11 +54,4 @@ func main() {
 		PORT = "8000"
 	}
 	e.Logger.Fatal(e.Start(":" + PORT))
-}
-
-func Env_load() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
 }
