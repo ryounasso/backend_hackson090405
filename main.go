@@ -3,36 +3,22 @@ package main
 import (
 	"net/http"
 	"os"
-	"time"
 
 	"github.com/labstack/echo"
 	_ "github.com/lib/pq"
-	"github.com/ryounasso/backend_hackson090405/db"
+	DB "github.com/ryounasso/backend_hackson090405/db"
 )
 
-type Model struct {
-	ID        uint `gorm:"primary_key" json:"id"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt *time.Time `sql:"index" json:"-"`
-}
-
-type Person struct {
-	Model
-	Name string
-	Age  int
-}
-
 func main() {
-	db := db.GetDBConnection()
+	db := DB.GetDBConnection()
+	DB.DBMigrate(db)
 
-	db.AutoMigrate(&Person{})
-	var persons []Person
+	var todos []DB.Todo
 
 	e := echo.New()
 	e.GET("/", func(c echo.Context) error {
-		db.Find(&persons)
-		return c.JSON(http.StatusOK, persons)
+		db.Find(&todos)
+		return c.JSON(http.StatusOK, todos)
 	})
 
 	PORT := os.Getenv("PORT")
