@@ -1,14 +1,13 @@
 package main
 
 import (
-	"log"
 	"net/http"
 	"os"
 	"time"
 
-	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo"
 	_ "github.com/lib/pq"
+	"github.com/ryounasso/backend_hackson090405/db"
 )
 
 type Model struct {
@@ -25,7 +24,7 @@ type Person struct {
 }
 
 func main() {
-	db := GetDBConnection()
+	db := db.GetDBConnection()
 
 	db.AutoMigrate(&Person{})
 	var persons []Person
@@ -41,13 +40,4 @@ func main() {
 		PORT = "8000"
 	}
 	e.Logger.Fatal(e.Start(":" + PORT))
-}
-
-func GetDBConnection() *gorm.DB {
-	db, err := gorm.Open("postgres", os.Getenv("DATABASE_URL"))
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return db
 }
