@@ -1,52 +1,39 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"time"
 
+	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo"
-	_ "github.com/lib/pq"
+	"github.com/lib/pq"
 )
 
-type Book struct {
-	Id   int64  `json:"id"`
-	Name string `json:"name"`
+type Model struct {
+	ID        uint `gorm:"primary_key" json:"id"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt *time.Time `sql:"index" json:"-"`
+}
+
+type Person struct {
+	Model
+	Name string
+	Age  int
 }
 
 func main() {
-	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer db.Close()
+	db := GetDBConnection()
 
-	err = db.Ping()
-	if err != nil {
-		log.Fatal(err)
-	}
+	db.AutoMigrate(&Person{})
+	var persons []Person
+
 	e := echo.New()
 	e.GET("/", func(c echo.Context) error {
-		rows, err := db.Query(`SELECT id, name FROM mybook`)
-		var books []Book
-		if err != nil {
-			log.Fatal(err)
-		}
-		for rows.Next() {
-			var id int64
-			var name string
-			err = rows.Scan(&id, &name)
-			if err != nil {
-				log.Fatal(err)
-			}
-			book := Book{Id: id, Name: name}
-			books = append(books, book)
-		}
-
-		fmt.Println(&rows)
-		return c.JSON(http.StatusOK, books[0])
+		db.Find(&persons)
+		return c.JSON(http.StatusOK, persons)
 	})
 
 	PORT := os.Getenv("PORT")
@@ -54,4 +41,19 @@ func main() {
 		PORT = "8000"
 	}
 	e.Logger.Fatal(e.Start(":" + PORT))
+}
+
+func GetDBConnection() *gorm.DB {
+	url := os.Getenv("DATABASE_URL")
+	connection, err := pq.ParseURL(url)
+	if err != nil {
+		log.Fatal(err)
+	}
+	connection += " sslmode=disable"
+	db, err := gorm.Open("postgres", connection)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return db
 }
