@@ -24,10 +24,7 @@ POST /todos/add TODOの追加 例 `curl -F "title=test" -F "description=test-des
 POST /todos/toggle_todo/:todoId TODOが完了したかしないか 例 `curl http://localhost:8000/todos/toggle_todo/1`
 
 DELETE /todos/delete/:todoId TODOの削除 例 `curl http://localhost:8000/todos/delete/1`
-### curl でリクエストを送る
-GET: curl http://localhost:8000/todos/1
 
-POST: 
 
 ### やること
 - []
