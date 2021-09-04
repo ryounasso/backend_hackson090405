@@ -25,6 +25,8 @@ POST /todos/toggle_todo/:todoId TODOが完了したかしないか 例 `curl htt
 
 DELETE /todos/delete/:todoId TODOの削除 例 `curl http://localhost:8000/todos/delete/1`
 
+### heroku がアプリケーションエラーとなったら
+`heroku restart web.1 --app whispering-bayou-86182`
 
 ### やること
 - []
