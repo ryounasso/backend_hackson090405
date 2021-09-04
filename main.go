@@ -6,6 +6,7 @@ import (
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	_ "github.com/lib/pq"
+	DB "github.com/ryounasso/backend_hackson090405/db"
 	"github.com/ryounasso/backend_hackson090405/handler"
 )
 
@@ -14,10 +15,12 @@ import (
 // }
 
 func main() {
-	e := echo.New()
 	// e.HideBanner = true
 	// e.HidePort = true
+	db := DB.GetDBConnection()
+	DB.DBMigrate(db)
 
+	e := echo.New()
 	e.Use(middleware.CORS())
 	e.Use(middleware.Logger())
 
@@ -32,8 +35,9 @@ func main() {
 	// }))
 
 	e.GET("/todos/:userId", handler.GetTodos)
-	e.POST("/todos/edit", handler.EditTodo)
 	e.POST("/todos/add", handler.AddTodo)
+	e.POST("/todos/edit/:todoId", handler.EditTodo)
+	e.DELETE("/todos/delete/:todoId", handler.DeleteTodo)
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
