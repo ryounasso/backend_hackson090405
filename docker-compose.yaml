@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  http-server:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    container_name: http-server
+    volumes:
+      - .:/go/src/app/
+    command: >
+      sh -c "DATABASE_URL=postgres://hackson:hackson_090405@postgres:5432/mydb?sslmode=disable reflex -s -r '\.go$$' go run main.go"
+
+  postgres:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=hackson # aliceという名前のUserを作る
+      - POSTGRES_PASSWORD=hackson_090405 # passwordでパスワードを設定
+      - POSTGRES_DB=mydb # wonderlandというデータベースを作る
+    container_name: postgres
