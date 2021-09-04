@@ -1,5 +1,8 @@
 # hackathon090405 チーム不退転 サーバーサイド
 
+### 開発環境
+1. `docker-compose build`
+2. `docker-compose up`
 ### 使用技術
 - golang
   - echo
