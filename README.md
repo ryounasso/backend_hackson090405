@@ -14,6 +14,7 @@
   DATABASE_URL=postgres://[username]:[password]@127.0.0.1:5432/[dbname]?sslmode=disable make run
 `
 
+
 ### heroku endpoint
 https://whispering-bayou-86182.herokuapp.com/
 
