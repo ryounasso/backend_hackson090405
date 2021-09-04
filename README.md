@@ -1,7 +1,10 @@
-echo
-gorm
+hackathon090405 チーム不退転 サーバーサイド
 
-
+### 使用技術
+- golang
+  - echo
+  - gorm
+- heroku 
 ### run
 
 `
@@ -11,10 +14,14 @@ gorm
 ### heroku endpoint
 https://whispering-bayou-86182.herokuapp.com/
 
+GET /todos/:userId ユーザーのTODOを所得
+POST /todos/edit/:todoId TODOの編集
+POST /todos/add TODOの追加
+DELETE /todos/delete/:todoId TODOの削除
 ### curl でリクエストを送る
 GET: curl http://localhost:8000/todos/1
 
-POST: curl -F "title=ebata" -F "description=mailmail" -F "todoId=1" http://localhost:8000/todos/add
+POST: curl -F "title=test" -F "description=test-description" -F "todoId=1" http://localhost:8000/todos/add
 
 ### やること
-editTodoやaddTodoでリクエストを受け付けることができたが、gormがよくわかっていないので、正しいところが編集できずにid=0が編集されているっぽい?
+- []
