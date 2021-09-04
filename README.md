@@ -1,4 +1,4 @@
-hackathon090405 チーム不退転 サーバーサイド
+# hackathon090405 チーム不退転 サーバーサイド
 
 ### 使用技術
 - golang
@@ -15,9 +15,13 @@ hackathon090405 チーム不退転 サーバーサイド
 https://whispering-bayou-86182.herokuapp.com/
 
 GET /todos/:userId ユーザーのTODOを所得
+
 POST /todos/edit/:todoId TODOの編集
+
 POST /todos/add TODOの追加
+
 POST /todos/toggle_todo/:todoId TODOが完了したかしないか
+
 DELETE /todos/delete/:todoId TODOの削除
 ### curl でリクエストを送る
 GET: curl http://localhost:8000/todos/1
