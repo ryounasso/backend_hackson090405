@@ -41,6 +41,7 @@ func main() {
 	e.GET("/todos/:userId", handler.GetTodos)
 	e.POST("/todos/add", handler.AddTodo)
 	e.POST("/todos/edit/:todoId", handler.EditTodo)
+	e.POST("/todos/toggle_todo/:todoId", handler.ToggleTodo)
 	e.DELETE("/todos/delete/:todoId", handler.DeleteTodo)
 
 	PORT := os.Getenv("PORT")
