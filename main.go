@@ -1,54 +1,43 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
-	"log"
-	"net/http"
 	"os"
 
 	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 	_ "github.com/lib/pq"
+	"github.com/ryounasso/backend_hackson090405/handler"
 )
 
-type Book struct {
-	Id   int64  `json:"id"`
-	Name string `json:"name"`
-}
+// func dumpHandler(c echo.Context, reqBody, resBody []byte) {
+// 	fmt.Fprintf(os.Stdout, "Request: %+v\n", string(reqBody))
+// }
 
 func main() {
-	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer db.Close()
-
-	err = db.Ping()
-	if err != nil {
-		log.Fatal(err)
-	}
 	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		rows, err := db.Query(`SELECT id, name FROM mybook`)
-		var books []Book
-		if err != nil {
-			log.Fatal(err)
-		}
-		for rows.Next() {
-			var id int64
-			var name string
-			err = rows.Scan(&id, &name)
-			if err != nil {
-				log.Fatal(err)
-			}
-			book := Book{Id: id, Name: name}
-			books = append(books, book)
-		}
+	// e.HideBanner = true
+	// e.HidePort = true
 
-		fmt.Println(&rows)
-		return c.JSON(http.StatusOK, books[0])
-	})
+	e.Use(middleware.CORS())
+	e.Use(middleware.Logger())
 
-	e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
+	// e.Use(middleware.BodyDumpWithConfig(middleware.BodyDumpConfig{
+	// 	Skipper: func(c echo.Context) bool {
+	// 		if c.Request().Header.Get("X-Debug") == "" {
+	// 			return true
+	// 		}
+	// 		return false
+	// 	},
+	// 	Handler: dumpHandler,
+	// }))
 
+	e.GET("/todos/:userId", handler.GetTodos)
+	e.POST("/todos/edit", handler.EditTodo)
+	e.POST("/todos/add", handler.AddTodo)
+
+	PORT := os.Getenv("PORT")
+	if PORT == "" {
+		PORT = "8000"
+	}
+	e.Logger.Fatal(e.Start(":" + PORT))
 }
