@@ -1,6 +1,7 @@
 package main
 
 import (
+	"net/http"
 	"os"
 
 	"github.com/labstack/echo"
@@ -34,6 +35,9 @@ func main() {
 	// 	Handler: dumpHandler,
 	// }))
 
+	e.GET("/", func(c echo.Context) error {
+		return c.String(http.StatusOK, "hackson090405_不退転")
+	})
 	e.GET("/todos/:userId", handler.GetTodos)
 	e.POST("/todos/add", handler.AddTodo)
 	e.POST("/todos/edit/:todoId", handler.EditTodo)
