@@ -3,16 +3,17 @@
 ### 開発環境
 1. `docker-compose build`
 2. `docker-compose up`
+
+### dbに接続
+1. docker exec -it postgres /bin/bash 
+2. su - postgres
+3. psql --username=hackson --dbname=mydb
 ### 使用技術
 - golang
   - echo
   - gorm
 - heroku 
-### run
 
-`
-  DATABASE_URL=postgres://[username]:[password]@127.0.0.1:5432/[dbname]?sslmode=disable make run
-`
 
 
 ### heroku endpoint
