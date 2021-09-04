@@ -18,6 +18,7 @@ type Model struct {
 
 type Todo struct {
 	Model
+	UserId      string `json:"userId"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	IsCompleted bool   `json:"isCompleted"`
