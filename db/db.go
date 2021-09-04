@@ -3,21 +3,13 @@ package db
 import (
 	"log"
 	"os"
-	"time"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"
 )
 
-type Model struct {
-	ID        uint `gorm:"primary_key" json:"id"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt *time.Time `sql:"index" json:"-"`
-}
-
 type Todo struct {
-	Model
+	gorm.Model
 	UserId      string `json:"userId"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
