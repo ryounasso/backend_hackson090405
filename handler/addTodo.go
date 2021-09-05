@@ -20,5 +20,5 @@ func AddTodo(c echo.Context) error {
 	todo.IsCompleted = false
 
 	db.Create(&todo)
-	return c.JSON(http.StatusOK, c.String(http.StatusOK, "add ok"))
+	return c.JSON(http.StatusOK, &todo)
 }

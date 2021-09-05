@@ -30,9 +30,14 @@ func ToggleTodo(c echo.Context) error {
 
 	todoId, _ := strconv.Atoi(c.Param("todoId"))
 	todo.ID = uint(todoId)
+	if todo.IsCompleted {
+		todo.IsCompleted = false
+	} else {
+		todo.IsCompleted = true
+	}
+	fmt.Println(!todo.IsCompleted)
 	db.Find(&todo)
-	fmt.Println(todo)
-	db.Model(&todo).Updates(DB.Todo{IsCompleted: !todo.IsCompleted})
+	db.Model(&todo).Updates(map[string]interface{}{"IsCompleted": !todo.IsCompleted})
 
 	return c.String(http.StatusOK, "toggled ok")
 }
