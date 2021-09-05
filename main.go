@@ -39,6 +39,7 @@ func main() {
 		return c.String(http.StatusOK, "hackson090405_不退転")
 	})
 	e.GET("/todos/:userId", handler.GetTodos)
+	e.GET("/todos/completed_num/:userId", handler.GetCompletedTodoNum)
 	e.POST("/todos/add", handler.AddTodo)
 	e.POST("/todos/edit/:todoId", handler.EditTodo)
 	e.POST("/todos/toggle_todo/:todoId", handler.ToggleTodo)
